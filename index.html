@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+  <title>loosen</title>
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f5f2ec">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#151412">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="loosen">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <main id="app">
+    <div class="slot">
+      <p id="line" class="line" aria-live="polite"></p>
+    </div>
+    <form id="ask" class="ask" autocomplete="off">
+      <textarea id="input" rows="1" enterkeyhint="done" autocapitalize="off" autocorrect="off"
+        autocomplete="off" spellcheck="false" aria-label="Ответ" autofocus></textarea>
+    </form>
+  </main>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
