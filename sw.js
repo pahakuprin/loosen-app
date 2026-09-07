@@ -1,7 +1,7 @@
 // Сервис-воркер: всё приложение лежит в кэше, сеть не нужна.
 // Меняя любой файл, поднимите VERSION — старый кэш снимется при активации.
 
-const VERSION = 'loosen-6'
+const VERSION = 'loosen-7'
 const ASSETS = [
   './',
   './index.html',
@@ -17,8 +17,11 @@ const ASSETS = [
   './icons/apple-touch-icon.png',
 ]
 
+// `cache: 'reload'` обязателен: иначе файлы берутся из HTTP-кэша браузера, и новый кэш
+// собирается из старых копий — хостинг отдаёт их с запасом в несколько минут.
 self.addEventListener('install', (event) => {
-  event.waitUntil(caches.open(VERSION).then((cache) => cache.addAll(ASSETS)).then(() => self.skipWaiting()))
+  const fresh = ASSETS.map((url) => new Request(url, { cache: 'reload' }))
+  event.waitUntil(caches.open(VERSION).then((cache) => cache.addAll(fresh)).then(() => self.skipWaiting()))
 })
 
 self.addEventListener('activate', (event) => {
