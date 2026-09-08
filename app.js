@@ -64,9 +64,11 @@ function hide() {
 async function show(beats, my, signalAt = -1) {
   line.classList.remove('is-out')
   line.replaceChildren(
-    ...beats.map((text) => {
+    ...beats.map((text, i) => {
       const beat = document.createElement('span')
-      beat.className = 'beat'
+      // Пустая строка перед сигналом стоит с самого начала: она размечает состав реплики,
+      // а не разыгрывает приход последнего такта.
+      beat.className = i === signalAt ? 'beat is-signal' : 'beat'
       beat.textContent = text
       return beat
     }),

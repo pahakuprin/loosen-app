@@ -76,10 +76,12 @@ body {
   max-width: 30ch;
   display: flex;
   flex-direction: column;
-  gap: 0.6em;
+  --gap: 0.6em;
+  --lead: 1.45em;
+  gap: var(--gap);
   text-align: center;
   font-size: clamp(1.25rem, 1rem + 1.6vw, 1.5rem);
-  line-height: 1.45;
+  line-height: var(--lead);
   transition: opacity var(--t-leave) var(--ease-leave);
 }
 
@@ -96,6 +98,13 @@ body {
 .beat.is-in {
   opacity: 1;
   transform: none;
+}
+
+/* Сигнал — высказывание другого рода, чем объект и его статус: перед ним пустая строка.
+   Ровно строка, не половина: промежуточный зазор читается как неровный набор, а не как
+   решение. Строк без сигнала это не касается — у них интервал ровный. */
+.beat.is-signal {
+  margin-top: calc(var(--lead) - var(--gap));
 }
 
 /* Пришёл сигнал — объект и «воспринимается» отходят: тем же движением, что и его приход. */
