@@ -150,6 +150,25 @@ if (vv) {
   fit()
 }
 
+// --- полоса статуса -------------------------------------------------------------------------
+
+// Цвет полосы берут из theme-color, но медиазапрос на нём читают не все: кто не читает,
+// берёт первый тег и держит его цвет в обеих темах. Поэтому во всех тегах — один цвет,
+// цвет текущей бумаги; какой бы тег ни выбрали, он верный.
+const bars = document.querySelectorAll('meta[name="theme-color"]')
+const paintBars = () => {
+  const paper = getComputedStyle(document.body).backgroundColor
+  bars.forEach((bar) => {
+    bar.content = paper
+  })
+}
+// Кадр отсрочки: цвет читается уже после того, как стили пересчитались под новую тему.
+const repaintBars = () => requestAnimationFrame(paintBars)
+paintBars()
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', repaintBars)
+// Тему чаще переключают, пока приложение свёрнуто: событие туда не приходит.
+document.addEventListener('visibilitychange', repaintBars)
+
 // --- старт ----------------------------------------------------------------------------------
 
 sleep(350).then(() => show(opener(WORDS).beats))
