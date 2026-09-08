@@ -44,6 +44,9 @@ const save = (state) => {
 
 let state = initialState(load())
 let seq = 0
+// Вопрос при открытии ставит только запуск. Поле берёт фокус раньше него, и без этого
+// вопрос успевал проступить от фокуса и начинался заново от запуска — это читалось мерцанием.
+let asked = false
 
 // --- строка ---------------------------------------------------------------------------------
 
@@ -131,7 +134,7 @@ ask.addEventListener('submit', (e) => {
 
 // После «ок, дальше» экран пуст; тронули поле — вопрос возвращается.
 input.addEventListener('focus', () => {
-  if (state.step === 'opener' && !onScreen() && !ask.classList.contains('is-sent')) {
+  if (asked && state.step === 'opener' && !onScreen() && !ask.classList.contains('is-sent')) {
     show(opener(WORDS).beats)
   }
 })
@@ -171,7 +174,10 @@ document.addEventListener('visibilitychange', repaintBars)
 
 // --- старт ----------------------------------------------------------------------------------
 
-sleep(350).then(() => show(opener(WORDS).beats))
+sleep(350).then(() => {
+  asked = true
+  return show(opener(WORDS).beats)
+})
 
 if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
   navigator.serviceWorker.register('./sw.js', { scope: './' }).catch(() => {})
